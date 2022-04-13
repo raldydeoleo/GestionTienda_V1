@@ -1,0 +1,64 @@
+<h1>{{modoEdicion ? 'Editar' : 'Agregar'}} Almacenamientos</h1>
+<form class="form-horizontal" novalidate
+      (ngSubmit)="save()" [formGroup]="formGroup">
+  <fieldset>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && !formGroup.get('codigo').valid }">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="codigo">Código</label>
+
+      <div class="col-md-8">
+        <input class="form-control"
+               id="codigo"
+               type="text"
+               required
+               formControlName="codigo" [ngClass]="{'border-danger': (formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && !formGroup.get('codigo').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && formGroup.get('codigo').errors">
+          <span *ngIf="formGroup.get('codigo').errors.required">
+            El campo Código es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && !formGroup.get('descripcion').valid }">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="descripcionId">Descripción</label>
+
+      <div class="col-md-8">
+        <input class="form-control"
+               id="descripcionId"
+               type="text"
+               required
+               formControlName="descripcion" [ngClass]="{'border-danger': (formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && !formGroup.get('descripcion').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && formGroup.get('descripcion').errors">
+          <span *ngIf="formGroup.get('descripcion').errors.required">
+            El campo Descripción es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+
+    
+
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-2">
+        <span>
+          <button class="btn btn-primary mr-2"
+                  type="submit"
+                  [disabled]="!formGroup.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary"
+                  [routerLink]='["/storage"]'>
+            Cancelar
+          </button>
+        </span>
+
+      </div>
+
+    </div>
+  </fieldset>
+</form>

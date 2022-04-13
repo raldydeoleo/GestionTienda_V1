@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BoxTrackLabel\dist\**" />
+    <Content Remove="BoxTrackLabel\dist\**" />
+    <EmbeddedResource Remove="BoxTrackLabel\dist\**" />
+    <None Remove="BoxTrackLabel\dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="BoxTrackLabel\src\app\account\user-info.ts" />
+    <None Remove="BoxTrackLabel\src\app\configuration-app\configuration.ts" />
+    <None Remove="BoxTrackLabel\src\app\label-printing\label.ts" />
+    <None Remove="BoxTrackLabel\src\app\PermissionEnum.ts" />
+    <None Remove="BoxTrackLabel\src\app\storage\storage.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="jquery.TypeScript.DefinitelyTyped" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="BoxTrackLabel\src\app\account\user-info.ts" />
+    <TypeScriptCompile Include="BoxTrackLabel\src\app\configuration-app\configuration.ts" />
+    <TypeScriptCompile Include="BoxTrackLabel\src\app\label-printing\label.ts" />
+    <TypeScriptCompile Include="BoxTrackLabel\src\app\PermissionEnum.ts" />
+    <TypeScriptCompile Include="BoxTrackLabel\src\app\storage\storage.ts" />
+  </ItemGroup>
+
+</Project>

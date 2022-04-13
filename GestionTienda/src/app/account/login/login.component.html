@@ -1,0 +1,52 @@
+
+<h1 class="text-center">Control de Acceso</h1>
+<div class="row">
+  <div class="col-xl-4 col-lg-5 col-md-7 col-sm-10 mx-auto p-4">
+    <form appFormInvalidInputFocus class="form-horizontal" [formGroup]="formGroup">
+      <!-- novalidate  -->
+      <fieldset>
+          <div class="form-group"
+            [ngClass]="{'text-danger': (formGroup.get('UserName').touched || formGroup.get('UserName').dirty) && !formGroup.get('UserName').valid }">
+            <label class=" control-label" for="usernameId">Usuario</label>
+              <input class="form-control" id="usernameId" type="text" required formControlName="UserName" autofocus
+                [ngClass]="{'border-danger': (formGroup.get('UserName').touched || formGroup.get('UserName').dirty) && !formGroup.get('UserName').valid }" />
+              <span class="help-block"
+                *ngIf="(formGroup.get('UserName').touched || formGroup.get('UserName').dirty) && formGroup.get('UserName').errors">
+                <span *ngIf="formGroup.get('UserName').errors.required">
+                  *El campo usuario es requerido
+                </span>
+              </span>
+            </div>
+          <div class="form-group"
+            [ngClass]="{'text-danger': (formGroup.get('Clave').touched || formGroup.get('Clave').dirty) && !formGroup.get('Clave').valid }">
+            <label class=" control-label" for="passwordId">Clave</label>
+      
+              <input class="form-control" id="passwordId" type="password" required formControlName="Clave"
+                [ngClass]="{'border-danger': (formGroup.get('Clave').touched || formGroup.get('Clave').dirty) && !formGroup.get('Clave').valid }" />
+              <span class="help-block"
+                *ngIf="(formGroup.get('Clave').touched || formGroup.get('Clave').dirty) && formGroup.get('Clave').errors">
+                <span *ngIf="formGroup.get('Clave').errors.required">
+                  *El campo clave es requerido
+                </span>
+                <span *ngIf="formGroup.get('Clave').errors.pattern">
+                  *Formato de clave incorrecto, asegúrese de introducir solo números
+                </span>
+              </span>
+          </div>
+          <div class="form-group ">
+            <div class="row mx-2">
+                <span>
+                  <button class="btn btn-primary mr-2" type="submit" (click)="login()">
+                    <!-- [disabled]="!formGroup.valid" -->
+                    Aceptar
+                  </button>
+                  <!--<button class="btn btn-secondary" type="button" [routerLink]='["/"]'>
+                    Salir
+                  </button>-->
+                </span>
+            </div>
+          </div>
+      </fieldset>
+    </form>
+  </div>
+</div>

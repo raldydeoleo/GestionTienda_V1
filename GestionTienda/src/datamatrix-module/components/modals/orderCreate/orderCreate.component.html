@@ -1,0 +1,350 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-basic-title">Crear Orden</h3>
+</div>
+<div class="modal-body">
+    <form class="form-horizontal" novalidate
+           [formGroup]="formGroup">
+    <fieldset>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('contactPerson').touched || formGroup.get('contactPerson').dirty) && !formGroup.get('contactPerson').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="codigo">Contacto</label>
+
+        <div class="col-md-8">
+          <input class="form-control"
+                id="contactPerson"
+                type="text"
+                required
+                formControlName="contactPerson" [ngClass]="{'border-danger': (formGroup.get('contactPerson').touched || formGroup.get('contactPerson').dirty) && !formGroup.get('contactPerson').valid }" />
+          <span class="help-block" *ngIf="(formGroup.get('contactPerson').touched || formGroup.get('contactPerson').dirty) && formGroup.get('contactPerson').errors">
+            <span *ngIf="formGroup.get('contactPerson').errors.required">
+              El contacto es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('sapOrderReference').touched || formGroup.get('sapOrderReference').dirty) && !formGroup.get('sapOrderReference').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="sapOrderReference">Orden de referencia</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="sapOrderReference"
+                type="text"
+                required
+                formControlName="sapOrderReference" [ngClass]="{'border-danger': (formGroup.get('sapOrderReference').touched || formGroup.get('sapOrderReference').dirty) && !formGroup.get('sapOrderReference').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('sapOrderReference').touched || formGroup.get('sapOrderReference').dirty) && formGroup.get('sapOrderReference').errors">
+            <span *ngIf="formGroup.get('sapOrderReference').errors.required">
+              Orden SAP requerida
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('productCode').touched || formGroup.get('productCode').dirty) && !formGroup.get('productCode').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="productCode">Producto</label>
+        <div class="col-md-8">
+          <ng-select [items]="products"
+                          [virtualScroll]="true"
+                          bindLabel="fullDescripcion"
+                          bindValue="codigoMaterial"
+                          placeholder="Buscar productos..."
+                          formControlName="productCode"
+                          id="idProducto"
+                          required
+                          [searchFn]="customSearchFn"
+                          [loading]="productsLoading"
+                          [ngClass]="{'border-danger': (formGroup.get('productCode').touched || formGroup.get('productCode').dirty) && !formGroup.get('productCode').valid }">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    {{item.descripcion}} ({{item.codigoMaterial}})
+                  </ng-template>
+          </ng-select>
+          <span class="help-block" *ngIf="(formGroup.get('productCode').touched || formGroup.get('productCode').dirty) && formGroup.get('productCode').errors">
+            <span *ngIf="formGroup.get('productCode').errors.required">
+              El producto es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+        [ngClass]="{'text-danger': (formGroup.get('quantity').touched || formGroup.get('quantity').dirty) && !formGroup.get('quantity').valid }">
+      <label class="col-md-4 control-label font-weight-bold"
+            for="quantity">Cantidad requerida de códigos</label>
+      <div class="col-md-8">
+        <input class="form-control"
+              id="quantity"
+              type="number"
+              required
+              formControlName="quantity" [ngClass]="{'border-danger': (formGroup.get('quantity').touched || formGroup.get('quantity').dirty) && !formGroup.get('quantity').valid }"/>
+        <span class="help-block" *ngIf="(formGroup.get('quantity').touched || formGroup.get('quantity').dirty) && formGroup.get('quantity').errors">
+          <span *ngIf="formGroup.get('quantity').errors.required">
+            La cantidad es requerida
+          </span>
+        </span>
+      </div>
+    </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('createMethodType').touched || formGroup.get('createMethodType').dirty) && !formGroup.get('createMethodType').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="createMethodType">Método de creación</label>
+
+        <div class="col-md-8">
+          <input class="form-control"
+                id="createMethodType"
+                type="text"
+                required
+                formControlName="createMethodType" [ngClass]="{'border-danger': (formGroup.get('createMethodType').touched || formGroup.get('createMethodType').dirty) && !formGroup.get('createMethodType').valid }" />
+          <span class="help-block" *ngIf="(formGroup.get('createMethodType').touched || formGroup.get('createMethodType').dirty) && formGroup.get('createMethodType').errors">
+            <span *ngIf="formGroup.get('createMethodType').errors.required">
+              El método de creación es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'text-danger': (formGroup.get('expectedStartDateForm').touched || formGroup.get('expectedStartDateForm').dirty) && !formGroup.get('expectedStartDateForm').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="expectedStartDateForm">Fecha de inicio esperada</label>
+        <div class="col-md-8">
+            <div class="form-group">
+              <div class="input-group">
+                <input autocomplete="off" class="form-control" placeholder="dd/mm/yyyy" 
+                       id="expectedStartDateForm" formControlName="expectedStartDateForm" (click)="d2.toggle()" name="expectedStartDateForm"   ngbDatepicker #d2="ngbDatepicker" [ngClass]="{'border-danger': (formGroup.get('expectedStartDateForm').touched || formGroup.get('expectedStartDateForm').dirty) && !formGroup.get('expectedStartDateForm').valid }">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><fa-icon [icon]="faCalendar" ></fa-icon></button>
+                </div>
+              </div>
+            </div>
+          <span class="help-block" *ngIf="(formGroup.get('expectedStartDateForm').touched || formGroup.get('expectedStartDateForm').dirty) && formGroup.get('expectedStartDateForm').errors">
+            <span *ngIf="formGroup.get('expectedStartDateForm').errors.required">
+              La fecha es requerida <br>
+            </span> 
+            <span *ngIf="formGroup.get('expectedStartDateForm').errors && !formGroup.get('expectedStartDateForm').errors.required ">
+              Formato de fecha no permitido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('factoryName').touched || formGroup.get('factoryName').dirty) && !formGroup.get('factoryName').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="factoryName">Nombre de fábrica</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="factoryName"
+                type="text"
+                required
+                formControlName="factoryName" [ngClass]="{'border-danger': (formGroup.get('factoryName').touched || formGroup.get('factoryName').dirty) && !formGroup.get('factoryName').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('factoryName').touched || formGroup.get('factoryName').dirty) && formGroup.get('factoryName').errors">
+            <span *ngIf="formGroup.get('factoryName').errors.required">
+              El nombre de la fábrica es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="factoryAddress">Dirección Fábrica</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="factoryAddress"
+                type="text"
+                formControlName="factoryAddress"/>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('factoryCountry').touched || formGroup.get('factoryCountry').dirty) && !formGroup.get('factoryCountry').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="factoryCountry">País Fábrica</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="factoryCountry"
+                type="text"
+                required
+                formControlName="factoryCountry" [ngClass]="{'border-danger': (formGroup.get('factoryCountry').touched || formGroup.get('factoryCountry').dirty) && !formGroup.get('factoryCountry').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('factoryCountry').touched || formGroup.get('factoryCountry').dirty) && formGroup.get('factoryCountry').errors">
+            <span *ngIf="formGroup.get('factoryCountry').errors.required">
+              El país es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('factoryId').touched || formGroup.get('factoryId').dirty) && !formGroup.get('factoryId').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="factoryId">Id Fábrica</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="factoryId"
+                type="number"
+                required
+                formControlName="factoryId" [ngClass]="{'border-danger': (formGroup.get('factoryId').touched || formGroup.get('factoryId').dirty) && !formGroup.get('factoryId').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('factoryId').touched || formGroup.get('factoryId').dirty) && formGroup.get('factoryId').errors">
+            <span *ngIf="formGroup.get('factoryId').errors.required">
+              El Id de la fábrica es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="poNumber">No. orden producción</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="poNumber"
+                type="number"
+                formControlName="poNumber"/>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('productionLineId').touched || formGroup.get('productionLineId').dirty) && !formGroup.get('productionLineId').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="productionLineId">Id línea producción</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="productionLineId"
+                type="number"
+                required
+                formControlName="productionLineId" [ngClass]="{'border-danger': (formGroup.get('productionLineId').touched || formGroup.get('productionLineId').dirty) && !formGroup.get('productionLineId').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('productionLineId').touched || formGroup.get('productionLineId').dirty) && formGroup.get('productionLineId').errors">
+            <span *ngIf="formGroup.get('productionLineId').errors.required">
+              El Id de la línea de producción es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="productionOrderId">Id Orden producción</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="productionOrderId"
+                type="text"
+                formControlName="productionOrderId"/>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('releaseMethodType').touched || formGroup.get('releaseMethodType').dirty) && !formGroup.get('releaseMethodType').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="releaseMethodType">Método de liberación</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="releaseMethodType"
+                type="text"
+                required
+                formControlName="releaseMethodType" [ngClass]="{'border-danger': (formGroup.get('releaseMethodType').touched || formGroup.get('releaseMethodType').dirty) && !formGroup.get('releaseMethodType').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('releaseMethodType').touched || formGroup.get('releaseMethodType').dirty) && formGroup.get('releaseMethodType').errors">
+            <span *ngIf="formGroup.get('releaseMethodType').errors.required">
+              El Método de liberación es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="serviceProviderId">Id proveedor de servicio</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="serviceProviderId"
+                type="text"
+                formControlName="serviceProviderId"/>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('cisType').touched || formGroup.get('cisType').dirty) && !formGroup.get('cisType').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="cisType">Tipo código</label>
+        <div class="col-md-8">
+          <select class="custom-select" formControlName="cisType" id="cisType"
+              [ngClass]="{'border-danger': (formGroup.get('cisType').touched || formGroup.get('cisType').dirty) && !formGroup.get('cisType').valid }">
+              <option  value ="UNIT">Unit</option>
+              <option  value ="GROUP">Group</option>
+          </select> 
+          <!-- <input class="form-control"
+                id="cisType"
+                type="text"
+                required
+                formControlName="cisType" [ngClass]="{'border-danger': (formGroup.get('cisType').touched || formGroup.get('cisType').dirty) && !formGroup.get('cisType').valid }"/> -->
+          <span class="help-block" *ngIf="(formGroup.get('cisType').touched || formGroup.get('cisType').dirty) && formGroup.get('cisType').errors">
+            <span *ngIf="formGroup.get('cisType').errors.required">
+              El tipo de código es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('mrp').touched || formGroup.get('mrp').dirty) && !formGroup.get('mrp').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="mrp">Precio de venta máximo</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="mrp"
+                type="number"
+                formControlName="mrp" [ngClass]="{'border-danger': (formGroup.get('mrp').touched || formGroup.get('mrp').dirty) && !formGroup.get('mrp').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('mrp').touched || formGroup.get('mrp').dirty) && formGroup.get('mrp').errors">
+            <span *ngIf="formGroup.get('mrp').errors.required">
+              El precio de venta máximo es requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group"
+          [ngClass]="{'text-danger': (formGroup.get('stickerId').touched || formGroup.get('stickerId').dirty) && !formGroup.get('stickerId').valid }">
+        <label class="col-md-4 control-label font-weight-bold"
+              for="stickerId">Id sticker</label>
+        <div class="col-md-8">
+          <input class="form-control"
+                id="stickerId"
+                type="number"
+                formControlName="stickerId" [ngClass]="{'border-danger': (formGroup.get('stickerId').touched || formGroup.get('stickerId').dirty) && !formGroup.get('stickerId').valid }"/>
+          <span class="help-block" *ngIf="(formGroup.get('stickerId').touched || formGroup.get('stickerId').dirty) && formGroup.get('stickerId').errors">
+            <span *ngIf="formGroup.get('stickerId').errors.required">
+              Id sticker requerido
+            </span>
+          </span>
+        </div>
+      </div>
+      <!-- <select class="custom-select" formControlName="serialNumberType" id="serialNumberType"
+              [ngClass]="{'border-danger': (formGroup.get('serialNumberType').touched || formGroup.get('serialNumberType').dirty) && !formGroup.get('serialNumberType').valid }">
+          <option  value ="OPERATOR">Operador</option>
+          <option  value ="SELF_MADE">Generado local</option>
+      </select> -->
+
+      
+
+    </fieldset>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <span class="mr-auto mx-3">
+    <button class="btn btn-primary mr-2"
+    (click)='save()' [disabled]="isCreating"
+    >
+    <span *ngIf="isCreating" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Crear
+    </button>
+    <button class="btn btn-secondary "
+    (click)='close()'>
+      Cancelar
+    </button>
+  </span>    
+</div>

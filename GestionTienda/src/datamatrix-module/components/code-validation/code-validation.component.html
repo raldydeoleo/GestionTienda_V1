@@ -1,0 +1,12 @@
+<h2 class="text-center">Confirmación de códigos utilizados</h2>
+<div class="row text-center">
+    <div class="mx-auto mb-3 mt-1 blink">
+        <!-- <button type="button" [ngClass]="{'d-none': loading}" autofocus>
+            <fa-icon [icon]="faQrcode" size="5x" class="text-primary" ></fa-icon>
+        </button> -->
+        <img src="./assets/icons/qr-code-scan.svg" class="filter-blue" width="130" height="130" alt="">
+    </div>
+</div>
+
+
+<code-scanner (scan) = "codeScan($event)" [loading]="loading"></code-scanner>

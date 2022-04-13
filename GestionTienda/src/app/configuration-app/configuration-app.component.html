@@ -1,0 +1,20 @@
+<h2>Configuración App</h2>
+<form class="form-horizontal" novalidate
+      (ngSubmit)="save()" [formGroup]="formGroup">
+  <fieldset>
+    <div class="custom-control custom-switch mt-3">
+      <input type="checkbox" class="custom-control-input" id="confirmacionModuloConfig" formControlName="confirmacionModuloConfig" [checked]="getConfirmacionModuloConfigValue()">
+      <label class="custom-control-label" for="confirmacionModuloConfig">{{confirmacionModuloText}}</label>
+    </div>
+    <div class="form-group mt-4">
+      <div class="col-md-4 col-md-offset-2">
+        <span>
+          <button class="btn btn-primary mr-2"
+                  type="submit">
+            Salvar
+          </button>
+        </span>
+      </div>
+    </div>
+  </fieldset>
+</form>

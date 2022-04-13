@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ycekdBgaKwksr/rn4xXnHP6oMD9cr/uZtD/xgSXbfonWOwTPJj/cjtrdJlFqYzI29dplIfBRra2rzMR/JQT2CQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rdejesus\\source\\repos\\GestionTienda\\GestionTienda\\GestionTienda.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rdejesus\\.nuget\\packages\\jquery.typescript.definitelytyped\\3.1.2\\jquery.typescript.definitelytyped.3.1.2.nupkg.sha512",
+    "C:\\Users\\rdejesus\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.23\\microsoft.netcore.app.host.win-x64.3.1.23.nupkg.sha512"
+  ],
+  "logs": []
+}

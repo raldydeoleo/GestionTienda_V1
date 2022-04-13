@@ -1,0 +1,26 @@
+<h2 class="text-center mb-2">Procesos</h2>
+<button [routerLink]='["/process-add"]' class="btn btn-primary">Agregar</button>
+<p *ngIf="!(processes && processes.length)">
+   No existen registros para mostrar.
+</p>
+<table class="table table-striped text-center mt-4" *ngIf="processes && processes.length" >
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Descripción</th>
+      <th>Código Permiso</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let process of processes">
+      <td>{{process.codigo}}</td>
+      <td>{{process.descripcion}}</td>
+      <td>{{process.codigoPermiso}}</td>
+      <td>
+        <button class="btn btn-primary mr-1" [routerLink]='["/process-edit/"+process.id]'>Editar</button>
+        <button class="btn btn-danger" (click)='delete(process)'>Borrar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

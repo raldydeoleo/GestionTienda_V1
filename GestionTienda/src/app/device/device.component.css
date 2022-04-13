@@ -1,0 +1,145 @@
+
+
+/* hover over card (tap on mobile) */
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", "Helvetica", sans-serif;
+  transition: background-color 0.2s;
+  will-change: background-color;
+}
+
+.wrapper {
+  display: grid;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.card {
+  display: block;
+  margin: 2rem auto;
+  width: 350px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.15);
+  transition: box-shadow .3s;
+}
+
+.card:hover {
+  box-shadow: 0 0 55px rgba(0, 0, 0, 0.2), 0 0 60px rgba(0, 0, 0, 0.1);
+}
+
+.card__header {
+  position: relative;
+  height: 170px;
+  padding: 30px 30px 300px;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  color: #fff;
+}
+
+.card__header--19 {
+  background-color: #f72648;
+  background-image: linear-gradient(#f72648, #fccb3c);
+  background: #f72648;
+  background: linear-gradient(#f72648, #fccb3c);
+}
+
+.card__watermark {
+  overflow: hidden;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+}
+
+.card__watermark::after {
+  content: attr(data-watermark);
+  position: relative;
+  left: -20px;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 240px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card__logo {
+  width: 50px;
+  height: auto;
+}
+
+.card__price {
+  float: right;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.card__title {
+  margin: 35px 0 20px;
+  font-size: 15px;
+  line-height: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.card__subtitle {
+  display: block;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.card__body {
+  position: relative;
+  padding: 40px 30px 20px;
+}
+
+.card__image {
+  z-index: 1;
+  position: absolute;
+  top: -290px;
+  left: -30px;
+  width: 125%;
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.card__wish-list {
+  position: relative;
+  display: block;
+  width: 50%;
+  margin: 0 auto 15px;
+  padding: 15px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 14px;
+  z-index: 5;
+}
+
+.card__wish-list--19 {
+  color: #8850ff;
+  border-color: #8850ff;
+}
+
+.card__wish-list--19:hover {
+  background-color: #8850ff;
+  color: white;
+}
+
+.card__category {
+  display: block;
+  font-size: 12px;
+  color: #aeaeae;
+  text-transform: uppercase;
+  text-align: center;
+}
+

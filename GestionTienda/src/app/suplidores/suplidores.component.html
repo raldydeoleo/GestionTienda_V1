@@ -1,0 +1,44 @@
+<h2 class="text-center">Suplidores</h2>
+<button [routerLink]='["/suplidor-add"]' class="btn btn-primary mt-2">Agregar</button>
+<form>    
+    <p *ngIf="!(suplidores && suplidores.length)">
+      No existen registros para mostrar.
+    </p>
+    <table class="table table-striped text-center" *ngIf="suplidores && suplidores.length">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>          
+          <th>Rnc</th>
+          <th>Dirección</th>
+          <th>Teléfono</th>
+          <th>Acción</th>              
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let suplidor of suplidores$ | async">
+          <td><ngb-highlight [result]="suplidor.id"></ngb-highlight>
+          <td><ngb-highlight [result]="suplidor.nombre"></ngb-highlight>          
+          <td><ngb-highlight [result]="suplidor.rnc"></ngb-highlight>
+          <td><ngb-highlight [result]="suplidor.direccion"></ngb-highlight>
+          <td><ngb-highlight [result]="suplidor.telefono"></ngb-highlight>
+          <td>
+           <button class="btn btn-primary mr-1" [routerLink]='["/suplidor-edit/"+suplidor.id]'>Editar</button>
+            <button class="btn btn-danger" (click)='delete(suplidor)'>Borrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="suplidoresService.page" [pageSize]="suplidoresService.pageSize">
+      </ngb-pagination>
+  
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="suplidoresService.pageSize">
+        <option [ngValue]="4">4 items por página</option>
+        <option [ngValue]="6">6 items por página</option>
+        <option [ngValue]="8">8 items por página</option>
+        <option [ngValue]="10">10 items por página</option>
+      </select>
+    </div>
+  </form>

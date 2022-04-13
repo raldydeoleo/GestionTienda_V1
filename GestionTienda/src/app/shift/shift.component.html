@@ -1,0 +1,30 @@
+<h2 class="text-center mb-2">Turnos</h2>
+<button [routerLink]='["/shift-add"]' class="btn btn-primary">Agregar</button>
+<p *ngIf="!(shifts && shifts.length)">
+  No existen registros para mostrar.
+</p>
+<table class="table table-striped text-center mt-4" *ngIf="shifts && shifts.length">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Descripción</th>
+      <th>Letra Representación</th>
+      <th>Hora Inicio</th>
+      <th>Hora Fin</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let shift of shifts">
+      <td>{{shift.codigo}}</td>
+      <td>{{shift.descripcion}}</td>
+      <td>{{shift.letraRepresentacion}}</td>
+      <td>{{shift.horaInicio | slice:0:5}}</td>
+      <td>{{shift.horaFin | slice:0:5}}</td>
+      <td>
+        <button class="btn btn-primary mr-1" [routerLink]='["/shift-edit/"+shift.id]'>Editar</button>
+        <button class="btn btn-danger" (click)='delete(shift)'>Borrar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,6 @@
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.csproj.AssemblyReference.cache
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.AssemblyInfoInputs.cache
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.AssemblyInfo.cs
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.csproj.CoreCompileInputs.cache
+C:\Users\rdejesus\source\repos\GestionTienda\BoxTrackLabel\obj\Debug\netcoreapp3.1\BoxTrackLabel.MvcApplicationPartsAssemblyInfo.cache

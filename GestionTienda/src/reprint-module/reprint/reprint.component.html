@@ -1,0 +1,70 @@
+<h3 class="mb-3">Reimpresión de etiquetas</h3>
+<div class="row">
+  
+    <div class="offset-md-6 col-md-6 col-12">
+      <div aria-label="breadcrumb" class="col-auto">
+          <ol class="breadcrumb justify-content-center">
+          <li class="breadcrumb-item active text-primary" aria-current="page">{{process}}</li>
+          <li class="breadcrumb-item active text-primary" aria-current="page">{{module}}</li>
+          <!-- <li class="breadcrumb-item active text-primary" aria-current="page">{{product}}</li> -->
+          </ol>
+      </div>
+    </div>
+  </div>
+  <form>
+    <div class="row">
+      <div class="form-group form-inline col-md-6 col-12">
+        QR: <input autofocus class="form-control ml-2 col-11" type="text" name="searchTerm" [(ngModel)]="labelService.searchTerm" /> 
+      </div>
+      <div class="offset-md-2 col-md-4 col-12">
+        <button class="btn btn-primary mr-2" type="submit" (click)="print()">
+          Imprimir
+        </button>
+        <button class="btn btn-danger" type="submit" (click)="cancelLabels()">
+          Anular
+        </button>
+      </div>
+    </div>
+    <p *ngIf="!(labels && labels.length)" class="text-center">No existen registros para mostrar</p>
+    <table class="table table-striped text-center" id="ticketsTable" *ngIf="labels && labels.length">
+      <thead>
+        <tr>
+          <th style="display:none"></th>
+          <th scope="col">Seleccionar</th>
+          <th scope="col">QR</th>
+          <th scope="col" sortable="fechaHoraCalendario" (sort)="onSort($event)"><fa-icon [icon]="faSort" class="mr-1"></fa-icon>Fecha Impresión</th>
+          <th scope="col" sortable="secuencia" (sort)="onSort($event)"><fa-icon [icon]="faSort" class="mr-1"></fa-icon>Secuencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let label of labels$ | async">
+          <th style="display:none"><ngb-highlight [result]="label.id" ></ngb-highlight></th>
+          <td scope="row">
+            <div class="custom-control custom-checkbox">
+              <input class="form-check-input" type="checkbox" [value]="label.id" id="defaultCheck1" (change)="checkBoxChange($event.target.value,$event.target.checked)">
+            </div>
+            
+          </td>
+          <td><ngb-highlight [result]="label.codigoQr" ></ngb-highlight></td>
+          <td>
+            <ngb-highlight [result]="label.fechaHoraCalendario | date:'dd/MM/yyyy (HH:mm:ss)'"></ngb-highlight>
+          </td>
+          <td><ngb-highlight [result]="label.secuencia" ></ngb-highlight></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="labelService.page" [pageSize]="labelService.pageSize">
+      </ngb-pagination>
+  
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="labelService.pageSize">
+        <option [ngValue]="4">4 items por página</option>
+        <option [ngValue]="6">6 items por página</option>
+        <option [ngValue]="8">8 items por página</option>
+        <option [ngValue]="10">10 items por página</option>
+      </select>
+    </div>
+  
+  </form>
+  

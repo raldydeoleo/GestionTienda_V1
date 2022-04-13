@@ -1,0 +1,216 @@
+
+<h3 class="mb-3">Realiza tu compra ahora!</h3><!-- <h3 class="mb-3">Elige el módulo deseado y a continuación haz clic en continuar</h3>-->
+<form>   
+    
+    <table class="table table-striped text-center" >
+      <thead>
+        <tr>               
+        </tr>
+      </thead>
+      <tbody>
+        <tr>          
+          <td>
+            <div class="card card--19">
+              <div class="card__header card__header--19">
+                <div class="card__watermark" data-watermark="Air"></div>
+                <img src="https://i.ibb.co/q7RKcZk/nike.png" alt="Nike" class="card__logo" />
+                <span class="card__price">$120</span>
+                <h1 class="card__title">Air Structure 1</h1>
+                <span class="card__subtitle">From the Flymesh upper to the triple-density foam midsole, the
+                  Nike Air Zoom Structure 19 Men's Running Shoe offers plenty of
+                  support and the response you need for a smooth, stable ride that
+                  feels ultra fast.</span>
+              </div>          
+              <div class="card__body">
+                <img src="https://i.ibb.co/R0Y8T8r/nike19.png" alt="Nike 19" class="card__image" />
+                <button type="button" class="card__wish-list card__wish-list--19">Agregar al carrito</button>
+                <span class="card__category">Men's running shoe</span>          
+              </div>
+            </div>          
+          </td>
+          <td>
+            <div class="card card--19">
+              <div class="card__header card__header--19">
+                <div class="card__watermark" data-watermark="Air"></div>
+                <img src="https://i.ibb.co/q7RKcZk/nike.png" alt="Nike" class="card__logo" />
+                <span class="card__price">$120</span>
+                <h1 class="card__title">Air Structure 1</h1>
+                <span class="card__subtitle">From the Flymesh upper to the triple-density foam midsole, the
+                  Nike Air Zoom Structure 19 Men's Running Shoe offers plenty of
+                  support and the response you need for a smooth, stable ride that
+                  feels ultra fast.</span>
+              </div>          
+              <div class="card__body">
+                <img src="https://i.ibb.co/R0Y8T8r/nike19.png" alt="Nike 19" class="card__image" />
+                <button type="button" class="card__wish-list card__wish-list--19">Agregar al carrito</button>
+                <span class="card__category">Men's running shoe</span>          
+              </div>
+            </div>          
+          </td>
+          <td>
+            <div class="card card--19">
+              <div class="card__header card__header--19">
+                <div class="card__watermark" data-watermark="Air"></div>
+                <img src="https://i.ibb.co/q7RKcZk/nike.png" alt="Nike" class="card__logo" />
+                <span class="card__price">$120</span>
+                <h1 class="card__title">Air Structure 1</h1>
+                <span class="card__subtitle">From the Flymesh upper to the triple-density foam midsole, the
+                  Nike Air Zoom Structure 19 Men's Running Shoe offers plenty of
+                  support and the response you need for a smooth, stable ride that
+                  feels ultra fast.</span>
+              </div>          
+              <div class="card__body">
+                <img src="https://i.ibb.co/R0Y8T8r/nike19.png" alt="Nike 19" class="card__image" />
+                <button type="button" class="card__wish-list card__wish-list--19" >Agregar al carrito</button>
+                <span class="card__category">Men's running shoe</span>          
+              </div>
+            </div>          
+         </td>         
+        </tr>
+      </tbody>
+    </table>
+   
+  </form>
+
+
+<!--<div class="wrapper">
+  <div class="col-md-4 col-4">
+  <div class="card card--19">
+    <div class="card__header card__header--19">
+      <div class="card__watermark" data-watermark="Air"></div>
+      <img src="https://i.ibb.co/q7RKcZk/nike.png" alt="Nike" class="card__logo" />
+      <span class="card__price">$120</span>
+      <h1 class="card__title">Air Structure 1</h1>
+      <span class="card__subtitle">From the Flymesh upper to the triple-density foam midsole, the
+        Nike Air Zoom Structure 19 Men's Running Shoe offers plenty of
+        support and the response you need for a smooth, stable ride that
+        feels ultra fast.</span>
+    </div>
+
+    <div class="card__body">
+      <img src="https://i.ibb.co/R0Y8T8r/nike19.png" alt="Nike 19" class="card__image" />
+      <button type="button" class="card__wish-list card__wish-list--19">Agregar al carrito</button>
+      <span class="card__category">Men's running shoe</span>
+
+    </div>
+  </div>
+</div>
+
+<div class="col-md-4 col-4">
+  <div class="card card--19">
+    <div class="card__header card__header--19">
+      <div class="card__watermark" data-watermark="Air"></div>
+      <img src="https://i.ibb.co/q7RKcZk/nike.png" alt="Nike" class="card__logo" />
+      <span class="card__price">$120</span>
+      <h1 class="card__title">Air Structure 1</h1>
+      <span class="card__subtitle">From the Flymesh upper to the triple-density foam midsole, the
+        Nike Air Zoom Structure 19 Men's Running Shoe offers plenty of
+        support and the response you need for a smooth, stable ride that
+        feels ultra fast.</span>
+    </div>
+
+    <div class="card__body">
+      <img src="https://i.ibb.co/R0Y8T8r/nike19.png" alt="Nike 19" class="card__image" />
+      <button type="button" class="card__wish-list card__wish-list--19">Agregar al carrito</button>
+      <span class="card__category">Men's running shoe</span>    
+    </div>
+  </div>
+
+</div>
+</div>-->
+<form class="form-horizontal" [formGroup]="formGroup">
+    <fieldset>
+        <div class="row">
+            <div class="form-group col-md-6 col-12">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text text-primary">1</span>
+                    </div>  
+                    <select class="custom-select" formControlName="idProceso" id="idProceso"  required 
+                        [ngClass]="{'border-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }">
+                        <option value="" selected>Selecciona el Proceso...</option>
+                        <option *ngFor="let process of processes" value ={{process.id}}> 
+                            {{process.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <span class="help-block"
+                    [ngClass]="{'text-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }"
+                    *ngIf="(formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && formGroup.get('idProceso').errors">
+                    <span *ngIf="formGroup.get('idProceso').errors.required">
+                        *El campo proceso es requerido
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+
+          <div class="form-group col-md-6 col-12">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text text-primary">2</span>
+              </div>
+              <select class="custom-select" formControlName="idModulo" id="idModulo"  required
+                  [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+                  <option value="" selected>Selecciona el Módulo...</option>
+                  <option *ngFor="let module of optionModules" value ={{module.id}}>
+                      {{module.descripcion}}
+                  </option>
+              </select>
+              <!--<ng-select [items]="optionModules"
+                         [virtualScroll]="true"
+                         bindLabel="descripcion"
+                         bindValue="id"
+                         placeholder="Selecciona el Módulo..."
+                         formControlName="idModulo"
+                         id="idModulo"
+                         required
+                         [loading]="modulesLoading"
+                         style="width:250px;"
+                         [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+              </ng-select>-->
+            </div>
+            <span class="help-block "
+                  [ngClass]="{'text-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }"
+                  *ngIf="(formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && formGroup.get('idModulo').errors">
+              <span *ngIf="formGroup.get('idModulo').errors.required">
+                *El campo módulo es requerido
+              </span>
+            </span>
+          </div>
+        </div>
+        <!-- <div class="row">
+
+            <div class="form-group col-md-6 col-12">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text text-primary">3</span>
+                </div>
+                <select class="custom-select" formControlName="tipoEtiqueta" id="tipoEtiqueta"  required
+                    [ngClass]="{'border-danger': (formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && !formGroup.get('tipoEtiqueta').valid }">
+                    <option value="" selected>Selecciona el tipo de etiqueta...</option>
+                    <option  value ="Box">BOX</option>
+                    <option  value ="Individuales">Cigarros Individuales</option>
+                </select>
+              </div>
+              <span class="help-block "
+                    [ngClass]="{'text-danger': (formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && !formGroup.get('tipoEtiqueta').valid }"
+                    *ngIf="(formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && formGroup.get('tipoEtiqueta').errors">
+                <span *ngIf="formGroup.get('tipoEtiqueta').errors.required">
+                  *Debe seleccionar el tipo de etiqueta a imprimir
+                </span>
+              </span>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-2 col-12">
+                <button class="btn btn-primary" type="submit" (click)="save()">
+                    {{buttonText}}
+                </button>
+            </div>
+        </div>
+            
+    </fieldset>
+
+</form>
+

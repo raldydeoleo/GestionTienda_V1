@@ -1,0 +1,128 @@
+<form appFormInvalidInputFocus [formGroup]="formGroup" class="mt-3">
+    <fieldset>
+        <!--<div class="row">
+            <div class="form-group col-md-4 col-12">
+                <div class="col-12">
+                    <select class="custom-select" formControlName="idProceso" id="idProceso" required
+                        [ngClass]="{'border-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }">
+                        <option value="" selected>Proceso...</option>
+                        <option *ngFor="let process of processes" value={{process.id}}>
+                        {{process.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <span class="help-block"
+                [ngClass]="{'text-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }"
+                *ngIf="(formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && formGroup.get('idProceso').errors">
+                    <span *ngIf="formGroup.get('idProceso').errors.required">
+                        *El proceso es requerido
+                    </span>
+                </span>
+            </div>
+            <div class="form-group col-md-4 col-12">
+                <div class="col-12">
+                    <select class="custom-select" formControlName="idModulo" id="idModulo" required
+                    [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+                        <option value="" selected>Módulo...</option>
+                        <option *ngFor="let module of optionModules" value={{module.id}}>
+                        {{module.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <span class="help-block "
+                [ngClass]="{'text-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }"
+                *ngIf="(formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && formGroup.get('idModulo').errors">
+                    <span *ngIf="formGroup.get('idModulo').errors.required">
+                        *El módulo es requerido
+                    </span>
+                </span>
+            </div>
+            <div class="form-group col-md-4 col-12">
+                <div class="col-12">
+                    <select class="custom-select" formControlName="idTurno" id="idTurno" required
+                    [ngClass]="{'border-danger': (formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && !formGroup.get('idTurno').valid }">
+                        <option value="" selected>Turno...</option>
+                        <option *ngFor="let shift of shifts" value={{shift.id}}>
+                        {{shift.descripcion}}
+                        </option>
+                    </select>
+                </div>
+                <span class="help-block"
+                [ngClass]="{'text-danger': (formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && !formGroup.get('idTurno').valid }"
+                *ngIf="(formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && formGroup.get('idTurno').errors">
+                    <span *ngIf="formGroup.get('idTurno').errors.required">
+                        *El Turno es requerido
+                    </span>
+                </span>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="form-group col-md-8 col-12">
+              <div class="col-12">
+                <label class="col-8 control-label font-weight-bold"
+                for="idProducto">Producto:</label>
+                <!--<input placeholder="Producto..." class="form-control" id="idProducto" type="text" required  formControlName="idProducto" [ngClass]="{'border-danger': (formGroup.get('idProducto').touched || formGroup.get('idProducto').dirty) && !formGroup.get('idProducto').valid }"/>-->
+                <ng-select [items]="products"
+                           [virtualScroll]="true"
+                           [typeahead]="typeahead"
+                           bindLabel="fullDescripcion"
+                           bindValue="codigoMaterial"
+                           placeholder="Buscar productos..."
+                           formControlName="idProducto"
+                           id="idProducto"
+                           required
+                           [searchFn]="customSearchFn"
+                           [loading]="productsLoading"
+                           [ngClass]="{'border-danger': (formGroup.get('idProducto').touched || formGroup.get('idProducto').dirty) && !formGroup.get('idProducto').valid }">
+                  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                    {{item.descripcion}} ({{item.codigoMaterial}})
+                  </ng-template>
+                </ng-select>
+              </div>
+                <span class="help-block"
+                [ngClass]="{'text-danger': (formGroup.get('idProducto').touched || formGroup.get('idProducto').dirty) && !formGroup.get('idProducto').valid }"
+                *ngIf="(formGroup.get('idProducto').touched || formGroup.get('idProducto').dirty) && formGroup.get('idProducto').errors">
+                    <span *ngIf="formGroup.get('idProducto').errors.required">
+                        *El producto es requerido
+                    </span>
+                </span>
+            </div>
+            <div class="form-group col-md-4 col-12">
+                <label class="col-8 control-label font-weight-bold"
+                for="fechaProduccion">Fecha de recepción:</label>
+                <div class="col-12">
+                    <input placeholder="Fecha Producción..." class="form-control" id="fechaProduccion" type="date" required  formControlName="fechaProduccion" [value]="formGroup.get('fechaProduccion').value"  [ngClass]="{'border-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }"/>
+                </div>
+                <span class="help-block"
+                [ngClass]="{'text-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }"
+                *ngIf="(formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && formGroup.get('fechaProduccion').errors">
+                    <span *ngIf="formGroup.get('fechaProduccion').errors.required">
+                        *La Fecha es requerida
+                    </span>
+                </span>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-12">
+                <label class="col-md-2 control-label font-weight-bold"
+                for="cantidad">Cantidad</label>
+                <div class="form-group col-2"><input class="form-control" id="cantidad"  type="text" required  formControlName="cantidad"  /> </div>                     
+            </div>           
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4 col-12 align-self-center">
+            <button class="btn btn-primary mr-2 ml-3" type="submit" (click)="save()">
+              Guardar
+            </button>
+            <!--<button class="btn btn-outline-danger mr-2 ml-3" type="submit" (click)="finish()" ngbTooltip="Finalizar producto">
+              Finalizar
+            </button>-->
+            <button class="btn btn-secondary" (click)="cancel()" ngbTooltip="Cerrar este formulario">
+              Salir
+            </button>
+          </div>
+        </div>
+    </fieldset>
+</form>

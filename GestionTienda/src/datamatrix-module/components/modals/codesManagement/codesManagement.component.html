@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-basic-title">Códigos de la orden</h3>
+</div>
+<div class="modal-body">
+  <table class="table table-striped text-center mt-2" *ngIf="codes && codes.length">
+    <thead>
+      <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Impreso</th>
+        <th scope="col">Confirmado</th>
+        <th scope="col">Desechado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let code of codes">
+        <td>{{code.codeValue}}</td>
+        <td><input type="checkbox" [checked]="code.isPrinted" onclick="return false;"></td>
+        <td><input type="checkbox" [checked]="code.isConfirmed" onclick="return false;"></td>
+        <td><input type="checkbox" [checked]="code.isDropout" onclick="return false;"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal-footer">
+  <span class="mr-auto mx-3">
+    <button class="btn btn-secondary"
+    (click)='close()'
+    >
+      Cerrar
+    </button>
+  </span>    
+</div>

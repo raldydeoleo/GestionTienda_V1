@@ -1,0 +1,145 @@
+<h2 class="text-center">Reimpresión</h2>
+<form [formGroup]="formGroup" class="mt-3 border border-rounded shadow">
+  <fieldset>
+      <div class="row">
+          <div class="form-group col-md-4 col-12">
+              <div class="col-12">
+                <label for="idProceso" class="control-label font-weight-bold">Proceso</label>
+              </div>
+              <div class="col-12">
+                  <select class="custom-select" formControlName="idProceso" id="idProceso" [ngModel]="labelReprintService.processTerm"  (ngModelChange)="labelReprintService.processTerm = $event">
+                      <option value="" selected>Todos...</option>
+                      <option *ngFor="let process of processes" value={{process.id}}>
+                      {{process.descripcion}}
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group col-md-4 col-12">
+              <div class="col-12">
+                <label for="idModulo" class="control-label font-weight-bold">Módulo</label>
+              </div>
+              <div class="col-12">
+                  <select class="custom-select" formControlName="idModulo" id="idModulo" [ngModel]="labelReprintService.moduleTerm"  (ngModelChange)="labelReprintService.moduleTerm = $event" >
+                      <option value="" selected>Todos...</option>
+                      <option *ngFor="let module of optionModules" value={{module.id}}>
+                      {{module.descripcion}}
+                      </option>
+                  </select>
+              </div>
+          </div>
+          <div class="form-group col-md-4 col-12">
+              <div class="col-12">
+                <label for="idTurno" class="control-label font-weight-bold">Turno</label>
+              </div>
+              <div class="col-12">
+                  <select class="custom-select" formControlName="idTurno" id="idTurno" [ngModel]="labelReprintService.shiftTerm"  (ngModelChange)="labelReprintService.shiftTerm = $event">
+                      <option value="" selected>Todos...</option>
+                      <option *ngFor="let shift of shifts" value={{shift.id}}>
+                      {{shift.descripcion}}
+                      </option>
+                  </select>
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="form-group col-md-8 col-12">
+            <div class="col-12">
+              <label for="idProducto" class="control-label font-weight-bold">Producto</label>
+            </div>
+            <div class="col-12">
+              <ng-select [items]="products"
+                         [virtualScroll]="true"
+                         bindLabel="fullDescripcion"
+                         bindValue="codigoMaterial"
+                         placeholder="Buscar productos..."
+                         formControlName="idProducto"
+                         id="idProducto"
+                         [searchFn]="customSearchFn"
+                         [loading]="productsLoading"
+                         [ngModel]="labelReprintService.productTerm"  (ngModelChange)="labelReprintService.productTerm = $event">
+                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                  {{item.descripcion}} ({{item.codigoMaterial}})
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+          <div class="form-group col-md-4 col-12" [ngClass]="{'text-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }">
+              <div class="col-12">
+                <label for="fechaProduccion" class="control-label font-weight-bold">Fecha Producción</label>
+              </div>
+              <div class="input-group">
+                <input autocomplete="off" class="form-control" placeholder="dd/mm/yyyy" [ngModel]="labelReprintService.dateTerm"  (ngModelChange)="labelReprintService.dateTerm = $event"
+                       id="fechaProduccion" formControlName="fechaProduccion" (click)="d2.toggle()" name="fechaProduccion"   ngbDatepicker #d2="ngbDatepicker" [ngClass]="{'border-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><fa-icon [icon]="faCalendar" ></fa-icon></button>
+                </div>
+              </div>
+              <span class="help-block" *ngIf="(formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && formGroup.get('fechaProduccion').errors">
+                <span *ngIf="formGroup.get('fechaProduccion').errors.required">
+                  La fecha es requerida <br>
+                </span> 
+                <span *ngIf="formGroup.get('fechaProduccion').errors && !formGroup.get('fechaProduccion').errors.required ">
+                  Formato de fecha no permitido
+                </span>
+              </span>
+         </div>
+      </div>
+  </fieldset>
+</form>
+
+<p *ngIf="!(labels && labels.length) && !isLoadingLabels" class="mt-3">
+  No existen registros para mostrar.
+</p>
+<div class="text-center mt-3">
+  <div *ngIf= "isLoadingLabels" class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+    <span class="sr-only">Cargando...</span>
+  </div>
+</div>
+<table class="table table-striped text-center mt-3" *ngIf="labels && labels.length">
+  <thead>
+    <tr>
+      <th>Código Producto</th>
+      <th style="width:280px">Producto</th>
+      <th style="width:50px">Tipo</th> 
+      <th style="width:50px">Módulo</th> 
+      <th style="width:50px">Reimpresiones</th>
+      <th style="width:90px">Hora</th>
+      <th>Usuario</th>
+      <th style="width:90px">Cantidad</th>
+      <th style="width:150px">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let label of labels$ | async; let i = index;">
+      <td><ngb-highlight [result]="label.codigoSap"></ngb-highlight></td>
+      <td><ngb-highlight [result]="label.descripcionProducto" ></ngb-highlight>
+      <td><ngb-highlight [result]="label.labelConfig.tipoEtiqueta + (label.labelConfig.llevaLogo ? ' [Logo]':'') + (label.labelConfig.llevaTextoInferior ? ' [Logo]':'') + (label.labelConfig.tipoEtiqueta == 'INDIVIDUAL' && !label.labelConfig.llevaLogo  ? ' [Sin Logo]':'') + (label.labelConfig.tipoEtiqueta == 'BOX' && !label.labelConfig.llevaTextoInferior  ? ' [Sin Logo]':'')"></ngb-highlight>
+      <td><ngb-highlight [result]="label.production.process.codigo + ' [' + label.production.module.textoModulo + ']'"></ngb-highlight>
+      <td><ngb-highlight [result]="label.totalReimpresiones" ></ngb-highlight></td>
+      <td><ngb-highlight [result]="label.fechaHoraCalendario | date:'h:mm a'" ></ngb-highlight></td>
+      <td><ngb-highlight [result]="label.usuarioGeneracion" ></ngb-highlight></td>
+      <td>
+         <input class="form-control" type="number" id="cantidad{{i}}"/> 
+      </td>
+      <td>
+        <a  class="btn btn-primary" (click)='reprint("cantidad"+i,label)' >
+          <fa-icon [icon]="faPrint"></fa-icon>
+          Imprimir
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="labelReprintService.page" [pageSize]="labelReprintService.pageSize">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="labelReprintService.pageSize">
+    <option [ngValue]="4">4 items por página</option>
+    <option [ngValue]="6">6 items por página</option>
+    <option [ngValue]="8">8 items por página</option>
+    <option [ngValue]="10">10 items por página</option>
+  </select>
+</div>

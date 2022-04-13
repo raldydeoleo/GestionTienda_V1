@@ -1,0 +1,84 @@
+<h3 class="mt-2">Configuración de impresoras</h3>
+
+<div class="row">
+  <div class="form-group col-md-6 col-12">
+    <label class="control-label" for="printerBox">Impresora para etiquetado de Box</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text text-primary">1</span>
+      </div>
+      <select class="custom-select" name="printerBox" id="printerBox" style="width: 250px;" (change)="printerBoxChange()">
+        <option value="" selected>Impresora para Box...</option>
+        <option *ngFor="let printer of printers" value={{printer.Name}}>
+          {{printer.Name}}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="input-group mb-4">
+    <div class="form-group col-12 mb-0">
+      <label class="control-label" for="printerBox">Dimensiones de etiqueta para box:</label>
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxWidth" id="boxWidth" placeholder="Ancho" (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxHeight" id="boxHeight" placeholder="Alto" (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxMarginT" id="boxMarginT" placeholder="Margen Sup." (change)="saveDimensions()" >
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxMarginB" id="boxMarginB" placeholder="Margen Inf." (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxMarginL" id="boxMarginL" placeholder="Margen Izq." (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="boxMarginR" id="boxMarginR" placeholder="Margen Der." (change)="saveDimensions()">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-md-6 col-12">
+    <label class="control-label" for="printerCigars">Impresora para etiquetado de cigarros individuales</label>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text text-primary">2</span>
+      </div>
+      <select class="custom-select" name="printerCigars" id="printerCigars" style="width: 250px;" (change)="printerCigarsChange()">
+        <option value="" selected>Impresora para Individuales...</option>
+        <option *ngFor="let printer of printers" value={{printer.Name}}>
+          {{printer.Name}}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="input-group mb-4">
+    <div class="form-group col-12 mb-0">
+      <label class="control-label" for="printerBox">Dimensiones de etiqueta para cigarros individuales:</label>
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarWidth" id="cigarWidth" placeholder="Ancho" (change)="saveDimensions()" >
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarHeight" id="cigarHeight" placeholder="Alto" (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarMarginT" id="cigarMarginT" placeholder="Margen Sup." (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarMarginB" id="cigarMarginB" placeholder="Margen Inf." (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarMarginL" id="cigarMarginL" placeholder="Margen Izq." (change)="saveDimensions()">
+    </div>
+    <div class="col-md-2 col-12">
+      <input type="number" class="form-control" name="cigarMarginR" id="cigarMarginR" placeholder="Margen Der." (change)="saveDimensions()">
+    </div>
+  </div>
+</div>

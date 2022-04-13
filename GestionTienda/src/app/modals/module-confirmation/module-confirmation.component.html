@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-basic-title">{{title}}</h3>
+</div>
+<div class="modal-body">
+  <form class="form-horizontal" [formGroup]="formGroup" >
+    <fieldset>
+      <div class="row">
+        <div class="form-group col-md-8 col-12">
+          <div class="col-12">
+            <!--<select class="custom-select" formControlName="idModulo" id="idModulo" required
+          [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+    <option value="" selected>Selecciona el Módulo...</option>
+    <option *ngFor="let module of modules" value={{module.id}}>
+      {{module.descripcion}}
+    </option>
+  </select>-->
+            <ng-select [items]="optionModules"
+                       [virtualScroll]="true"
+                       bindLabel="descripcion"
+                       bindValue="id"
+                       placeholder="Seleccionar Módulo"
+                       formControlName="idModulo"
+                       id="idModulo"
+                       required
+                       [searchFn]="customSearchFn"
+                       [loading]="modulesLoading"
+                       [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+            </ng-select>
+          </div>
+          <!--<span class="help-block "
+                [ngClass]="{'text-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }"
+                *ngIf="(formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && formGroup.get('idModulo').errors">
+            <span *ngIf="formGroup.get('idModulo').errors.required">
+              *El campo módulo es requerido
+            </span>
+          </span>-->
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" (click)="confirm()" [disabled]="!formGroup.valid">
+    Confirmar
+  </button>
+  <button type="button" class="btn btn-outline-dark ml-2" (click)="cancel()">
+    Cancelar
+  </button>
+</div>

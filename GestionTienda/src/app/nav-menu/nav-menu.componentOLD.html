@@ -1,0 +1,86 @@
+<div *ngIf="!isTabOpen">
+  <div class="wrapper">
+    <nav id="sidebar" >
+      <div class="sidebar-header">
+        <h4>Gestión Tienda</h4><span class="h5 ml-2">v{{currentApplicationVersion}}</span>
+      </div>
+      <ul class="list-unstyled components" *ngIf="isLoggedIn()">
+        <li *ngIf="accountService.canViewOption('Programacion')">
+          <a href="#productosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" name="productosMenu" (click)="showUniqueMenu('productosMenu')">Productos</a>
+          <ul class="collapse list-unstyled" id="productosSubmenu">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["registrar"]'>Registrar producto</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["verlistado"]'>Lista de  productos</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["reposicion"]'>Reposición de  productos</a>
+            </li>            
+          </ul>
+        </li>
+        <li *ngIf="accountService.canViewOption('Suplidores')">
+          <a href="#suplidoresSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" name="suplidoresMenu" (click)="showUniqueMenu('suplodoresMenu')">Suplidores</a>
+          <ul class="collapse list-unstyled" id="suplidoresSubmenu">
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["/listadesuplidores"]'>Lista de suplidores</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["registrarsuplidor"]'>Registrar suplidor</a>
+            </li> 
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["productos_prov-add"]'>Registrar producto</a>
+            </li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]='["listadeproductossuplidor"]'>Lista de productos</a>
+            </li>                     
+          </ul>
+        </li>    
+        
+        <li>
+          <a [routerLink]='' (click)='descargarManual("Manual De Usuario Box Track Label.pdf")'>Manual de usuario</a>
+        </li>
+        <li *ngIf="isLoggedIn()">
+          <a [routerLink]="" (click)='logout()'>
+            <fa-icon [icon]="faPowerOff" class="mr-2"></fa-icon>Cerrar Sesión
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div id="content">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+        <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <ul class="nav navbar-nav mr-auto" *ngIf="isLoggedIn() && accountService.canViewOption('Etiquetado')">
+            <!-- asegurarse que este valor solo este si el turno esta abierto y que este actualizado -->
+            <li>
+              <span class="font-weight-bolder ml-3"> {{globalService.getLocalShift()}} </span> <span class="font-weight-bolder ml-1"> {{globalService.getProductionDate()}} </span>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav mx-auto" *ngIf="isMasterDataSync">
+            <li>
+              Actualizando Maestros<fa-icon [icon]="faSpinner" [pulse]="true" size="1x" class="ml-2"></fa-icon>
+            </li>
+          </ul>         
+          <ul class="nav navbar-nav ml-auto">
+            <li [routerLinkActive]='["link-active"]'>
+              <span class="border-right border-dark font-weight-bolder" *ngIf="isLoggedIn()">{{accountService.getLoggedInUser()}} </span> <span class="ml-1 font-weight-bolder">{{getServer()}}</span>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container">
+        <app-reminder *ngIf="isLoggedIn()"></app-reminder>
+        <!-- <app-change-shift *ngIf="isLoggedIn()"></app-change-shift>  -->
+        <router-outlet></router-outlet>
+      </div>
+
+    </div>
+  </div>
+</div>

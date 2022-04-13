@@ -1,0 +1,24 @@
+<h2 class="text-center mb-2">Almacenamientos</h2>
+<button [routerLink]='["/storage-add"]' class="btn btn-primary">Agregar</button>
+<p *ngIf="!(storages && storages.length)">
+  No existen registros para mostrar.
+</p>
+<table class="table table-striped text-center mt-4" *ngIf="storages && storages.length">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let storage of storages">
+      <td>{{storage.codigo}}</td>
+      <td>{{storage.descripcion}}</td>
+      <td>
+        <button class="btn btn-primary mr-1" [routerLink]='["/storage-edit/"+storage.id]'>Editar</button>
+        <button class="btn btn-danger" (click)='delete(storage)'>Borrar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

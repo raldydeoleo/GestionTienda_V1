@@ -1,0 +1,54 @@
+<h2 class="mb-3">Configuración de correos</h2>
+
+<form (ngSubmit)="save()" no validate class="form-horizontal mb-3" [formGroup]="formGroup">
+  <fieldset>
+    <div class="form-group">
+      <div class="input-group">
+        <input aria-describedby="button-addon" type="email" placeholder="Dirección de correo.." required formControlName="email" class="col-md-5 form-control input-group-prepend" [ngClass]="{'border-danger':(formGroup.get('email').touched || formGroup.get('email').dirty) && !formGroup.get('email').valid}">
+        <button class="btn btn-primary input-group-append" type="submit" id="button-addon">Agregar</button>
+        <div class="custom-control custom-switch ml-4">
+          <input type="checkbox" class="custom-control-input" id="isCopy" formControlName="isCopy">
+          <label class="custom-control-label" for="isCopy">CC</label>
+        </div>
+      </div>
+      <span class="help-block" *ngIf="(formGroup.get('email').touched || formGroup.get('email').dirty) && formGroup.get('email').errors"> 
+        <span *ngIf="formGroup.get('email').errors.email" class="text-danger">
+           Debe utilizar un formato de correo válido
+        </span>
+        <span *ngIf="formGroup.get('email').errors.required" class="text-danger">
+           El correo es requerido
+        </span>
+      </span>
+    </div>
+    
+  </fieldset>
+</form>
+<p *ngIf="!(emails && emails.length)">
+  No existen registros para mostrar.
+</p>
+<table class="table table-striped text-center" *ngIf="emails && emails.length">
+  <thead>
+    <tr>
+      <th>Correo</th>
+      <th>CC</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let email of emails$ | async; let i = index;">
+      <td>{{email.email}}</td>
+      <td><input type="checkbox" [checked]="email.isCopy" onclick="return false;"></td>
+      <td>
+        <button class="btn btn-danger" (click)='delete(email,i)' [disabled]="deleteSpinnerArray.includes(i)">
+          <span  *ngIf= "deleteSpinnerArray.includes(i)"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Quitar
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+

@@ -1,0 +1,43 @@
+<h2 class="text-center">Productos</h2>
+<button [routerLink]='["/productos-add"]' class="btn btn-primary mt-2">Agregar</button>
+<form>    
+    <p *ngIf="!(productos && productos.length)">
+      No existen registros para mostrar.
+    </p>
+    <table class="table table-striped text-center" *ngIf="productos && productos.length">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>          
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Acción</th>          
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productos$ | async">
+          <td><ngb-highlight [result]="producto.id"></ngb-highlight>
+          <td><ngb-highlight [result]="producto.nombre"></ngb-highlight>          
+          <td><ngb-highlight [result]="producto.cantidad"></ngb-highlight>
+          <td><ngb-highlight [result]="producto.precio"></ngb-highlight>
+          <td>
+           <button class="btn btn-primary mr-1" [routerLink]='["/productos-edit/"+producto.id]'>Editar</button>
+            <button class="btn btn-danger mr-1" (click)='delete(producto)'>Borrar</button>
+            <button class="btn btn-success" [routerLink]='["/reponer_producto-edit/"+producto.id]'>Reposición</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="productosService.page" [pageSize]="productosService.pageSize">
+      </ngb-pagination>
+  
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="productosService.pageSize">
+        <option [ngValue]="4">4 items por página</option>
+        <option [ngValue]="6">6 items por página</option>
+        <option [ngValue]="8">8 items por página</option>
+        <option [ngValue]="10">10 items por página</option>
+      </select>
+    </div>
+  </form>

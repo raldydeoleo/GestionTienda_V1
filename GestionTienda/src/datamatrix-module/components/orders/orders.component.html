@@ -1,0 +1,93 @@
+ <h2 class="text-center">{{isSupervisor?'Administración de órdenes':'Impresión de códigos'}}</h2>
+<button *ngIf="isSupervisor" (click)='showCreateModal()' class="btn btn-primary mt-2 mb-3">Crear</button>
+
+<form>
+  <div class="form-group row col-md-7 col-lg-6 col-xl-4 col-12">
+    <!-- <label for="searchTerm" class="col-auto col-form-label font-weight-bold">Fecha de orden</label> -->
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"><b>Fecha a consultar:</b></span>
+      </div>
+      <input autocomplete="off" class="form-control" placeholder="dd/mm/yyyy" id="searchTerm" name="searchTerm" (click)="d2.toggle()"  ngbDatepicker #d2="ngbDatepicker" [ngModel]="orderService.searchTerm"  (ngModelChange)="orderService.searchTerm = $event" ngbTooltip="Buscar por fecha de orden"  aria-describedby="inputGroup-sizing-default">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><fa-icon [icon]="faCalendar" ></fa-icon></button>
+      </div>
+    </div>
+    <!-- <input style="width: 195px;" class="form-control col-auto mb-md-2" type="date" name="searchTerm" id="searchTerm" [ngModel]="orderService.searchTerm | date:'yyyy-MM-dd'" (ngModelChange)="orderService.searchTerm = $event" ngbTooltip="Filtrar por fecha de orden"/> -->
+  
+  </div> 
+  <!-- <div class="form-group form-inline mt-4">
+    Buscar: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="orderService.searchTerm" ngbTooltip="Buscar por código o descripción del producto" tooltipClass="tooltipclass" />
+  </div> -->
+  
+  <p *ngIf="!(orders && orders.length) && !isLoadingOrders">
+    No existen registros para mostrar.
+  </p>
+  <div class="text-center">
+    <div *ngIf= "isLoadingOrders" class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+      <span class="sr-only">Cargando...</span>
+    </div>
+  </div>
+  <table class="table table-striped text-center" *ngIf="orders && orders.length">
+    <thead>
+      <tr>
+        <th>Fecha Creación</th>
+        <th>Referencia</th>
+        <th>Código Producto</th>
+        <th style="width:300px">Producto</th>
+        <th>Códigos requeridos</th> 
+        <th>Estatus</th>
+        <th>Tiempo estimado</th>
+        <th style="width:100px">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders$ | async; let i = index;">
+        <td><ngb-highlight [result]="order.creationDate | date:'dd/MM/yyyy'"></ngb-highlight></td>
+        <td><ngb-highlight [result]="order.sapOrderReference" ></ngb-highlight>
+        <td><ngb-highlight [result]="order.productCode" ></ngb-highlight></td>
+        <td><ngb-highlight [result]="order.productDescription" ></ngb-highlight></td>
+        <td><ngb-highlight [result]="order.quantity"></ngb-highlight></td>  
+        <td><ngb-highlight [result]="order.status" class="badge badge-pill" [ngClass]="{'badge-warning':(order.status == 'Creada') , 'badge-success':(order.status == 'Disponible') , 'badge-danger':(order.status == 'Rechazada' || order.status == 'Expirada') , 'badge-info':(order.status == 'Procesada'), 'badge-secondary':(order.status == 'Cerrada')}"></ngb-highlight></td>
+        <td><ngb-highlight [result]="order.expectedCompleteTimestamp / 60000 | number:'1.0-0' "></ngb-highlight> min.</td>
+        <td>
+          <button *ngIf="isSupervisor && (order.status == 'Creada' || order.status == 'Disponible')" class="btn btn-primary" (click)='getCodes(order,i)' [disabled]="gettingCodesSpinnerArray.includes(i)">
+            <span  *ngIf= "gettingCodesSpinnerArray.includes(i)"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Obtener códigos
+          </button>
+          <button *ngIf="order.status == 'Procesada' && isSupervisor && !order.isPrintAuthorized" class="btn btn-warning mb-1" (click)='authorizePrint(order,i+1)' [disabled]="authPrintSpinner == i+1" >
+            <span  *ngIf= "authPrintSpinner == i+1"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Autorizar Impresión
+          </button>
+          <button *ngIf="order.status == 'Procesada' && order.isPrintAuthorized" class="btn btn-primary mb-1 " (click)='print(order,i+1)'>Imprimir códigos</button>
+          <button *ngIf="(order.status == 'Procesada' && isSupervisor) || order.status == 'Cerrada'" class="btn btn-info mb-1" (click)='showCodes(order)'>Ver códigos</button>
+          <button *ngIf="order.status == 'Procesada' && isSupervisor && order.isPrintAuthorized" class="btn btn-danger" (click)='close(order,i)' [disabled]="closingSpinnerArray.includes(i)">
+            <span  *ngIf= "closingSpinnerArray.includes(i)"  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Cerrar Orden
+          </button>
+          <!-- <button *ngIf="order.status == 'Creada' && !isCheckingAvailability" class="btn btn-primary" (click)='checkAvailability(order)'>Ver Disponibilidad</button> -->
+          <!-- <button *ngIf="btnVerifyingShow == (i+1)" class="btn btn-primary" type="button" disabled >
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Verificando...
+          </button>
+          <button  *ngIf="btnGettingShow == (i+1)" class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Obteniendo códigos...
+          </button> -->
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="orderService.page" [pageSize]="orderService.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="orderService.pageSize">
+      <option [ngValue]="4">4 items por página</option>
+      <option [ngValue]="6">6 items por página</option>
+      <option [ngValue]="8">8 items por página</option>
+      <option [ngValue]="10">10 items por página</option>
+    </select>
+  </div>
+</form>

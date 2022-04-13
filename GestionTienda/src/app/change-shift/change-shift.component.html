@@ -1,0 +1,5 @@
+<div class="row justify-content-center" [hidden]="!changeShiftRequired">
+    <div class="alert alert-warning font-weight-bolder d-inline-block" role="alert">
+        El tiempo del turno se ha agotado. <button class="btn btn-danger ml-2" (click)="closeShift()">Cerrar Turno</button>
+    </div>    
+</div>

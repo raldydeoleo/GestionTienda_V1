@@ -1,0 +1,182 @@
+<!-- <div *ngIf="!(process)">
+    <p class="h3">
+        Su equipo no está configurado actualmente, puede hacer clic en el siguiente botón para configurarlo
+    </p>
+    <a class="btn btn-primary" [routerLink]='' (click) = 'goToConfiguration()'>Configuración</a>
+</div> -->
+<form class="form-horizontal" [formGroup]="formGroup" *ngIf="process">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="mb-3">Etiquetado</h2>
+        </div>
+        <div class="offset-md-1 col-md-5">
+            <div aria-label="breadcrumb" class="col-auto">
+                <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item active text-primary" aria-current="page"><a  [routerLink]='' (click)='return()'>{{process}}</a></li>
+                <li class="breadcrumb-item active text-primary" aria-current="page"><a  [routerLink]='' (click)='return()'>{{module}}</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <fieldset>
+        <div class="row">
+            <div class="from-group col-md-4 pr-0">
+                <div class="col-md-2 col-12">
+                    <label class=" control-label" for="IdProducto">Producto</label>
+                </div>
+                <div class="col-md-10 col-12">
+                  <input autofocus class="form-control" id="IdProducto" formControlName="IdProducto" type="text" > <!--(keyup.enter)="onKeyUpEnter($event)"-->
+                </div>
+            </div>
+            <div class="from-group col-md-6 p-md-0">
+                <div class="col-md-2 col-12">
+                    <label class=" control-label" for="IdDescripcion">Descripción</label>
+                </div>
+                <div class="col-md-12 col-12">
+                    <input class="form-control" id="IdDescripcion" formControlName="IdDescripcion" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <!--<div class="form-group col-md-4">
+      <div class="card bg-light ml-3 w-75 mt-xl-3">
+          <div class="col-12">
+              <label class="control-label">Texto etiqueta</label>
+          </div>
+          <div class="col-12">
+              <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="country" formControlName="country">
+                  <label class="form-check-label" for="country">Estados Unidos</label>
+              </div>
+          </div>
+      </div>
+  </div>-->
+
+         
+
+          <div class="form-group col-md-4 col-12 pr-0">
+            <div class="col-md-12">
+              <label class=" col-form-label" for="printedQuantity">Cantidad Impresa</label>
+            </div>
+            <div class="col-md-10 col-12">
+              <input class="form-control text-center" id="printedQuantity" formControlName="printedQuantity" type="number" disabled>
+            </div>
+          </div>
+
+          <div class="from-group col-md-8 col-12 p-md-0 mt-2">
+            <div class="col-md-12 col-12">
+              <label class=" control-label" for="storage">Almacenamiento</label>
+            </div>
+            <div class="col-md-10 col-lg-9">
+              <select class="custom-select" formControlName="storage" id="storage" [(ngModel)]="selectedStorage" disabled
+                      [ngClass]="{'border-danger': (formGroup.get('storage').touched || formGroup.get('storage').dirty) && !formGroup.get('storage').valid }">
+                <option *ngFor="let storage of storages" value={{storage.codigo}}>
+                  {{storage.descripcion}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- <div class="from-group col-md-6 p-0">
+      <div class="col-md-2 col-12">
+          <label class="control-label" for="customer">Cliente</label>
+      </div>
+      <div class="col-md-12">
+          <ng-select [items]="customers"
+                  [virtualScroll]="true"
+                  [typeahead]="typeahead"
+                  bindLabel="nombre1"
+                  bindValue="idCliente"
+                  placeholder="Buscar clientes"
+                  formControlName="customer"
+                  >
+          </ng-select>
+      </div>
+  </div> -->
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-4 col-12 pr-0">
+            <div class="col-md-12 col-12">
+              <label class=" col-form-label" for="quantity">Cantidad a Imprimir</label>
+            </div>
+            <div class="col-md-10">
+              <input class="form-control text-center" id="quantity" formControlName="quantity" type="number">
+            </div>
+            <!--<div class="form-group col-12">
+              <div class="col-md-12 mt-2 pl-0">
+                <a class="btn btn-primary text-white" (click)="imprimir()">
+                  Imprimir
+                </a>
+              </div>
+            </div>-->
+          </div>
+          <div class="from-group col-md-4 col-12 p-md-0 mt-2">
+            <div class="col-md-12 col-12">
+              <label class=" control-label" for="tipoEtiqueta">Tipo Etiqueta</label>
+            </div>
+            <div class="col-md-10 col-lg-9">
+              <select class="custom-select" formControlName="tipoEtiqueta" id="tipoEtiqueta" (change) = "tipoEtiquetaChange()"
+                      [ngClass]="{'border-danger': (formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && !formGroup.get('tipoEtiqueta').valid }">
+                  <!-- <option value="">Tipo de etiqueta...</option> -->
+                  <option  value ="Box">Box</option>
+                  <option  value ="Individual">Cigarros Individuales</option>
+              </select>
+              <!-- <span class="help-block "
+                    [ngClass]="{'text-danger': (formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && !formGroup.get('tipoEtiqueta').valid }"
+                    *ngIf="(formGroup.get('tipoEtiqueta').touched || formGroup.get('tipoEtiqueta').dirty) && formGroup.get('tipoEtiqueta').errors">
+                <span *ngIf="formGroup.get('tipoEtiqueta').errors.required">
+                  *Debe seleccionar el tipo de etiqueta a imprimir
+                </span>
+              </span> -->
+            </div>
+          </div>
+          <div class="col-md-4 justify-content-start">
+            <div class="form-check mt-5 pl-0 mr-2">
+              <input class="form-check-input" type="checkbox"  id="logoDirCheck" formControlName="logoDirCheck">
+              <label class="form-check-label" for="logoDirCheck">
+                <fa-icon [icon]="faImage" class="mr-1"></fa-icon>Logo / Texto Inferior
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-auto ml-md-2">
+            <div class="form-check mb-2 pl-4">
+              <input class="form-check-input" type="radio"  name="radioCheck" id="directPrinting" checked>
+              <label class="form-check-label" for="directPrinting">
+                <fa-icon [icon]="faPrint" class="mr-1"></fa-icon>Printer
+              </label>
+            </div>
+            <div class="form-group col-auto">
+              <div class="col-md-12 mt-2 pl-0">
+                <a class="btn btn-primary text-white" (click)="imprimir()">
+                  Imprimir
+                </a>
+              </div>
+            </div>
+          </div>
+            <div class="col-auto">
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="radio"  id="indirectPrinting" name="radioCheck">
+                <label class="form-check-label" for="indirectPrinting">
+                  <fa-icon [icon]="faFilePdf" class="mr-1"></fa-icon>Pdf
+                </label>
+              </div>
+            </div>
+        </div>
+        
+        <!-- <div class="row">
+            <qrcode [qrdata]="qrCodeData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+        </div>
+        <div class="row">
+            <ngx-barcode [bc-value]="eanCodeData" [bc-display-value]="true"></ngx-barcode>
+        </div> -->
+    </fieldset>
+
+</form>
+
+
+
+
+

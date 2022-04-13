@@ -1,0 +1,15 @@
+<h3 class="mb-3">Ingresa el código QR de la etiqueta que deseas anular</h3>
+<form class="form-horizontal" [formGroup]="formGroup">
+    <fieldset>
+        <div class="row">
+            <div class="from-group col-md-12 pr-0">
+                <div class="col-md-2 col-12">
+                    <label class=" control-label" for="qrCode">Código</label>
+                </div>
+                <div class="col-md-10 col-12">
+                    <input class="form-control" id="qrCode" formControlName="qrCode" type="text" (keyup.enter)="onKeyUpEnter($event)">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>

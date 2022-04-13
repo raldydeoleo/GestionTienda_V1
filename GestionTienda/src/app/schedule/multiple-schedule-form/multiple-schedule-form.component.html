@@ -1,0 +1,153 @@
+<h3>Registro masivo de programación de módulos</h3>
+<input type="file" class="inputfile" name="excelfileinput" id="excelfileinput" (change)="onFileChange($event)" multiple="false">
+<label for="excelfileinput" class="btn btn-primary text-center"><fa-icon [icon]="faUpload" class="mr-2"></fa-icon>Elegir archivo de excel</label>
+<div class="row justify-content-center">
+  <button [routerLink]='["/schedule"]' class="btn btn-outline-primary ml-2 mb-2"><fa-icon [icon]="faArrowLeft" class="mr-2"></fa-icon>Regresar</button>
+  <button (click)='showForm()' class="btn btn-primary ml-2 mb-2 offset-md-2"><fa-icon [icon]="faPlus" class="text-center"></fa-icon></button>
+</div>
+<p *ngIf="!(schedules && schedules.length || canShowForm)" class="text-center">No existen registros para mostrar</p>
+<table class="table table-striped text-center" [hidden]="!(schedules && schedules.length || canShowForm)">
+  <thead>
+    <tr>
+      <th scope="col">Fecha Producción</th>
+      <th scope="col">Proceso</th>
+      <th scope="col">Módulo</th>
+      <th scope="col">Turno</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [hidden]="!canShowForm">
+      <td>
+        <input type="date" class="form-control" focusable  id="fechaProduccion" >
+      </td>
+      <td colspan="2">
+        <select class="custom-select" focusable id="idProceso" (change)="processChanged()" >
+          <option value="" selected>Procesos...</option>
+          <option *ngFor="let process of processes" value={{process.id}}>
+            {{process.descripcion}}
+          </option>
+        </select>
+      </td>
+      <td>
+        <select class="custom-select" focusable  id="idModulo">
+          <option value="" selected>Módulos...</option>
+          <option *ngFor="let module of optionModules" value={{module.id}}>
+            {{module.descripcion}}
+          </option>
+        </select>
+      </td>
+      <td>
+        <select class="custom-select" focusable id="idTurno">
+          <option *ngFor="let shift of shifts" value={{shift.id}}>
+            {{shift.descripcion}}
+          </option>
+        </select>
+      </td>
+
+      <td rowspan="2">
+        <button class="btn btn-primary mb-1 mr-1" (click)='addNewRow()'>Agregar</button>
+        <button class="btn btn-danger mb-1" (click)='clearTrForm()'>Salir</button>
+      </td>
+    </tr>
+    <tr class="table-secondary" [hidden]="!canShowForm">
+      <td colspan="5">
+        <ng-select [items]="products"
+                   [virtualScroll]="true"
+                   bindLabel="fullDescripcion"
+                   bindValue="codigoMaterial"
+                   placeholder="Buscar productos..."
+                   id="idProducto"
+                   [searchFn]="customSearchFn"
+                   required
+                   [(ngModel)]="selectedProduct"
+                   (change)="productChanged()"
+                   focusable>
+          <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+            {{item.descripcion}} ({{item.codigoMaterial}})
+          </ng-template>
+        </ng-select>
+      </td>
+    </tr>
+    <tr *ngFor="let schedule of schedules; index as index">
+      <td>
+        <editable (update)="updateField(index, 'fechaProduccion')">
+          <ng-template viewMode>{{schedule.fechaProduccion | date:'dd/MM/yyyy'}}</ng-template>
+          <ng-template editMode>
+            <input type="date" class="form-control" editableOnEnter [formControl]="getControl(index, 'fechaProduccion')" focusable>
+          </ng-template>
+        </editable>
+      </td>
+      <td>
+        <editable (update)="updateField(index, 'idProceso')">
+          <ng-template viewMode>{{schedule.process.descripcion}}</ng-template>
+          <ng-template editMode>
+            <!--<input editableOnEnter [formControl]="getControl(index, 'idProceso')" focusable >-->
+            <select class="custom-select" editableOnEnter focusable [formControl]="getControl(index, 'idProceso')">
+              <option *ngFor="let process of processes" value={{process.id}}>
+                {{process.descripcion}}
+              </option>
+            </select>
+          </ng-template>
+        </editable>
+      </td>
+      <td>
+        <editable (update)="updateField(index, 'idModulo')">
+          <ng-template viewMode>{{schedule.module.descripcion}}</ng-template>
+          <ng-template editMode>
+            <!--<input editableOnEnter [formControl]="getControl(index, 'idModulo')" focusable>-->
+            <select class="custom-select" editableOnEnter focusable [formControl]="getControl(index, 'idModulo')" (click)="selectModuleOnClick(index)">
+              <option *ngFor="let module of optionModules" value={{module.id}}>
+                {{module.descripcion}}
+              </option>
+            </select>
+          </ng-template>
+        </editable>
+      </td>
+      <td>
+        <editable (update)="updateField(index, 'idTurno')">
+          <ng-template viewMode>{{schedule.shift.descripcion}}</ng-template>
+          <ng-template editMode>
+            <!--<input editableOnEnter [formControl]="getControl(index, 'idTurno')" focusable>-->
+            <select class="custom-select" editableOnEnter focusable [formControl]="getControl(index, 'idTurno')">
+              <option *ngFor="let shift of shifts" value={{shift.id}}>
+                {{shift.descripcion}}
+              </option>
+            </select>
+          </ng-template>
+        </editable>
+      </td>
+      <td>
+        <editable (update)="updateField(index, 'idProducto')">
+          <ng-template viewMode>{{schedule.product.descripcion}}</ng-template>
+          <ng-template editMode>
+            <!--<input editableOnEnter [formControl]="getControl(index, 'idProducto')" focusable>-->
+            <ng-select [items]="products"
+                       [virtualScroll]="true"
+                       bindLabel="fullDescripcion"
+                       bindValue="codigoMaterial"
+                       placeholder="Buscar productos..."
+                       id="idProducto"
+                       [searchFn]="customSearchFn"
+                       editableOnEnter
+                       focusable
+                       (click)="productRowChanged(index)"
+                       [formControl]="getControl(index, 'idProducto')">
+              <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                {{item.descripcion}} ({{item.codigoMaterial}})
+              </ng-template>
+            </ng-select>
+          </ng-template>
+        </editable>
+      </td>
+      <td>
+        <button class="btn btn-danger mr-1" (click)='delete(schedule)'>Borrar</button>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+<button *ngIf="schedules && schedules.length" (click)="upload()" class="btn btn-primary">Confirmar</button> <!--[disabled]="!controls.valid"-->
+<button *ngIf="schedules && schedules.length" (click)="cleanTable()" class="btn btn-outline-primary ml-2">Limpiar Registros</button>
+

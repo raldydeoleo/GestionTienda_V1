@@ -1,0 +1,111 @@
+
+<h3>Reposición</h3>
+<div class="container border" *ngIf="displayForm">
+    <app-schedule-form [selectedModule] = "selectedModule"></app-schedule-form>
+</div>
+<div class="row mt-3 mb-1">
+    <div class="col-md-6 col-12">
+        <button *ngIf="!displayForm" class="btn btn-primary mr-2" (click)="createSchedule()" ngbTooltip="Agregar nueva programación">
+          Agregar
+        </button>
+        <!--<button class="btn btn-primary"  [routerLink]='["/multiple-schedule"]'>
+            Registro Múltiple
+        </button>-->
+    </div>
+</div>
+<form>
+    <div class="form-group row col-md-12 col-12 justify-content-md-center">
+      <label for="searchTerm" class="col-auto col-form-label font-weight-bold"> Fecha de Recepción:</label>
+      <input style="width: 195px;" class="form-control col-auto mb-md-2" type="date" name="searchTerm" id="searchTerm" [ngModel]="scheduleService.searchTerm | date:'yyyy-MM-dd'" (ngModelChange)="scheduleService.searchTerm = $event" ngbTooltip="Filtrar por fecha de producción"/>
+      <div class="col-auto"> 
+          <select class="custom-select" name="idProceso" id="idProceso" style="width: 250px;" (change)="processChange()" ngbTooltip="Filtrar por codigo de producto">
+            <option value="" selected>Código de producto...</option>
+            <option *ngFor="let process of processes" value={{process.id}}>
+              {{process.descripcion}}
+            </option>
+          </select>
+      </div>
+      <div class="col-auto">
+          <select class="custom-select" name="idModulo" id="idModulo" style="width: 250px;" (change)="filterByModule()" ngbTooltip="Filtrar por cantidad">
+            <option value="" selected>Cantidad deseada...</option>
+            <option *ngFor="let module of optionModules" value={{module.id}}>
+              {{module.descripcion}}
+            </option>
+          </select>
+      </div>
+    </div>
+   <!-- <div class="from-group row justify-content-center">
+      <div class="col-auto">
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="radioCheck" id="activosCheck" value="activos" (click)="filter('activos')" ngbTooltip="Mostrar programaciones activas">
+          <label class="form-check-label" for="activosCheck">
+            Activas
+          </label>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="radioCheck" id="finalizadosCheck" value="finalizados" (click)="filter('finalizados')" ngbTooltip="Mostrar programaciones finalizadas">
+          <label class="form-check-label" for="finalizadosCheck">
+            Finalizadas
+          </label>
+        </div>
+      </div>
+      <div class="col-auto">
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="radio" name="radioCheck" id="todosCheck" checked value="todos" (click)="filter('todos')" ngbTooltip="Mostrar todas las programaciones">
+          <label class="form-check-label" for="todosCheck">
+            Todas
+          </label>
+        </div>
+      </div>
+      <div class="col-auto text-right">
+        <ul class="legend">
+          <li> <span class="table-primary"></span>Activa</li>
+          <li> <span class="table-secondary"></span>Finalizada</li>
+        </ul>
+      </div>
+    </div>-->
+    
+    <p *ngIf="!(schedules && schedules.length)" class="text-center">No existen registros para mostrar</p>
+    <table class="table text-center" id="scheduleTable" *ngIf="schedules && schedules.length">
+    <thead>
+      <tr>
+        <th style="display:none"></th>
+        <th scope="col">Fecha Producción</th>
+        <th scope="col" sortable="idProceso" (sort)="onSort($event)"><fa-icon [icon]="faSort" class="mr-1"></fa-icon>Proceso</th>
+        <th scope="col" sortable="idModulo" (sort)="onSort($event)"><fa-icon [icon]="faSort" class="mr-1"></fa-icon>Módulo</th>
+        <th scope="col" sortable="idTurno" (sort)="onSort($event)"><fa-icon [icon]="faSort" class="mr-1"></fa-icon>Turno</th>
+        <th style="width:400px" scope="col">Producto</th>
+        <th scope="col">Código</th>
+        <th scope="col">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let schedule of schedules$ | async" [ngClass]="{'table-secondary':(schedule.finalizado) , 'table-primary':!(schedule.finalizado) }">
+        <td><ngb-highlight [result]="schedule.fechaProduccion | date:'dd/MM/yyyy'"></ngb-highlight></td>
+        <td><ngb-highlight [result]="schedule.process.descripcion"></ngb-highlight></td>
+        <td><ngb-highlight [result]="schedule.module.descripcion"></ngb-highlight></td>
+        <td><ngb-highlight [result]="schedule.shift.codigo"></ngb-highlight></td>
+        <td><ngb-highlight [result]="schedule.product.descripcion"></ngb-highlight></td>
+        <td><ngb-highlight [result]="schedule.product.codigoMaterial"></ngb-highlight></td>
+        <td>
+          <button class="btn btn-primary mr-1" (click)='edit(schedule)' [disabled]='schedule.finalizado'>Editar</button>
+        </td>
+      </tr>
+    </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="scheduleService.page" [pageSize]="scheduleService.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="scheduleService.pageSize">
+        <option [ngValue]="4">4 items por página</option>
+        <option [ngValue]="6">6 items por página</option>
+        <option [ngValue]="8">8 items por página</option>
+        <option [ngValue]="10">10 items por página</option>
+    </select>
+    </div>
+</form>
+

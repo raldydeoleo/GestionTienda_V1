@@ -1,0 +1,101 @@
+<h3 class="mb-3">Reimpresión de etiquetas</h3>
+
+<form  class="form-horizontal" [formGroup]="formGroup">
+  <fieldset>
+    <div class="row">
+      <div class="form-group col-md-5 col-12">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-primary">1</span>
+          </div>
+          <select class="custom-select" formControlName="idProceso" id="idProceso" required
+                  [ngClass]="{'border-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }">
+            <option value="" selected>Selecciona el Proceso...</option>
+            <option *ngFor="let process of processes" value={{process.id}}>
+              {{process.descripcion}}
+            </option>
+          </select>
+        </div>
+        <span class="help-block"
+              [ngClass]="{'text-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }"
+              *ngIf="(formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && formGroup.get('idProceso').errors">
+          <span *ngIf="formGroup.get('idProceso').errors.required">
+            *El campo proceso es requerido
+          </span>
+        </span>
+      </div>
+
+      <div class="form-group col-md-5 col-12">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-primary">2</span>
+          </div>
+          <select class="custom-select" formControlName="idModulo" id="idModulo" required
+                  [ngClass]="{'border-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }">
+            <option value="" selected>Selecciona el Módulo...</option>
+            <option *ngFor="let module of optionModules" value={{module.id}}>
+              {{module.descripcion}}
+            </option>
+          </select>
+        </div>
+        <span class="help-block "
+              [ngClass]="{'text-danger': (formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && !formGroup.get('idModulo').valid }"
+              *ngIf="(formGroup.get('idModulo').touched || formGroup.get('idModulo').dirty) && formGroup.get('idModulo').errors">
+          <span *ngIf="formGroup.get('idModulo').errors.required">
+            *El campo módulo es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-5 col-12 align-self-end">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-primary">3</span>
+          </div>
+          <select class="custom-select" formControlName="idTurno" id="idTurno" required
+                  [ngClass]="{'border-danger': (formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && !formGroup.get('idTurno').valid }">
+            <option value="" selected>Selecciona el Turno...</option>
+            <option *ngFor="let shift of shifts" value={{shift.id}}>
+              {{shift.descripcion}}
+            </option>
+          </select>
+        </div>
+        <span class="help-block"
+              [ngClass]="{'text-danger': (formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && !formGroup.get('idTurno').valid }"
+              *ngIf="(formGroup.get('idTurno').touched || formGroup.get('idTurno').dirty) && formGroup.get('idTurno').errors">
+          <span *ngIf="formGroup.get('idTurno').errors.required">
+            *El campo Turno es requerido
+          </span>
+        </span>
+      </div>
+
+      <div class="form-group col-md-5 col-12">
+        <label class=" control-label" for="fechaProduccion">Fecha Producción</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-primary">4</span>
+          </div>
+          <input class="form-control" id="fechaProduccion" type="date" required formControlName="fechaProduccion"
+                 [ngClass]="{'border-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }" />
+        </div>
+        <span class="help-block"
+              [ngClass]="{'text-danger': (formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && !formGroup.get('fechaProduccion').valid }"
+              *ngIf="(formGroup.get('fechaProduccion').touched || formGroup.get('fechaProduccion').dirty) && formGroup.get('fechaProduccion').errors">
+          <span *ngIf="formGroup.get('fechaProduccion').errors.required">
+            *El campo Fecha Producción es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 col-12">
+        <button class="btn btn-primary" type="submit" (click)="gotoreprint()">
+          Aceptar
+        </button>
+      </div>
+    </div>
+
+  </fieldset>
+
+</form>

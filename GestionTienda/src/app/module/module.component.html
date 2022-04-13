@@ -1,0 +1,57 @@
+<h2 class="text-center">Módulos</h2>
+<button [routerLink]='["/module-add"]' class="btn btn-primary mt-2">Agregar</button>
+
+<form>
+  <div class="form-group form-inline mt-4">
+    Buscar: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="moduleService.searchTerm" ngbTooltip="Buscar por: código/descripción/texto" tooltipClass="tooltipclass" />
+    <div class="col-auto">
+      <select class="custom-select" name="idProceso" id="idProceso" style="width: 250px;" (change)="processChange()" ngbTooltip="Filtrar por proceso" tooltipClass="tooltipclass">
+        <option value="" selected>Todos los procesos...</option>
+        <option *ngFor="let process of processes" value={{process.id}}>
+          {{process.descripcion}}
+        </option>
+      </select>
+    </div>
+  </div>
+  
+  <p *ngIf="!(modules && modules.length)">
+    No existen registros para mostrar.
+  </p>
+  <table class="table table-striped text-center" *ngIf="modules && modules.length">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th>Proceso</th>
+        <th>No. Módulo</th>
+        <th>Texto Etiqueta</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let module of modules$ | async">
+        <td><ngb-highlight [result]="module.codigo"></ngb-highlight>
+        <td><ngb-highlight [result]="module.descripcion"></ngb-highlight>
+        <td><ngb-highlight [result]="module.process.descripcion"></ngb-highlight>
+        <td><ngb-highlight [result]="module.numeroModulo"></ngb-highlight>
+        <td><ngb-highlight [result]="module.textoModulo"></ngb-highlight>
+        <td>
+          <button class="btn btn-primary mr-1" [routerLink]='["/module-edit/"+module.id]'>Editar</button>
+          <button class="btn btn-danger" (click)='delete(module)'>Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="moduleService.page" [pageSize]="moduleService.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="moduleService.pageSize">
+      <option [ngValue]="4">4 items por página</option>
+      <option [ngValue]="6">6 items por página</option>
+      <option [ngValue]="8">8 items por página</option>
+      <option [ngValue]="10">10 items por página</option>
+    </select>
+  </div>
+</form>

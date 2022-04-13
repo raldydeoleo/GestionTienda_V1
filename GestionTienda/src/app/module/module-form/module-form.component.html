@@ -1,0 +1,128 @@
+<h1>{{modoEdicion ? 'Editar' : 'Agregar'}} Módulos</h1>
+<form class="form-horizontal" novalidate
+      (ngSubmit)="save()" [formGroup]="formGroup">
+  <fieldset>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && !formGroup.get('codigo').valid }">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="codigo">Código</label>
+
+      <div class="col-md-8">
+        <input class="form-control"
+               id="codigo"
+               type="text"
+               required
+               formControlName="codigo" [ngClass]="{'border-danger': (formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && !formGroup.get('codigo').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('codigo').touched || formGroup.get('codigo').dirty) && formGroup.get('codigo').errors">
+          <span *ngIf="formGroup.get('codigo').errors.required">
+            El campo Código es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && !formGroup.get('descripcion').valid }">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="descripcionId">Descripción</label>
+
+      <div class="col-md-8">
+        <input class="form-control"
+               id="descripcionId"
+               type="text"
+               required
+               formControlName="descripcion" [ngClass]="{'border-danger': (formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && !formGroup.get('descripcion').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('descripcion').touched || formGroup.get('descripcion').dirty) && formGroup.get('descripcion').errors">
+          <span *ngIf="formGroup.get('descripcion').errors.required">
+            El campo Descripción es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="idProceso">Proceso</label>
+      <div class="col-md-8">
+        <select class="custom-select" formControlName="idProceso" id="idProceso" required
+                [ngClass]="{'border-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }">
+          <option value="" selected>Proceso...</option>
+          <option *ngFor="let process of processes" value={{process.id}}>
+            {{process.descripcion}}
+          </option>
+        </select>
+      </div>
+      <span class="help-block"
+            [ngClass]="{'text-danger': (formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && !formGroup.get('idProceso').valid }"
+            *ngIf="(formGroup.get('idProceso').touched || formGroup.get('idProceso').dirty) && formGroup.get('idProceso').errors">
+        <span *ngIf="formGroup.get('idProceso').errors.required">
+          *El proceso es requerido
+        </span>
+      </span>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('numeroModulo').touched || formGroup.get('numeroModulo').dirty) && !formGroup.get('numeroModulo').valid }">
+      <label class="col-md-4 control-label font-weight-bold"
+             for="numeroModulo">Número del módulo</label>
+
+      <div class="col-md-2">
+        <input class="form-control"
+               id="numeroModulo"
+               type="text"
+               required
+               formControlName="numeroModulo" [ngClass]="{'border-danger': (formGroup.get('numeroModulo').touched || formGroup.get('numeroModulo').dirty) && !formGroup.get('numeroModulo').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('numeroModulo').touched || formGroup.get('numeroModulo').dirty) && formGroup.get('numeroModulo').errors">
+          <span *ngIf="formGroup.get('numeroModulo').errors.required">
+            El campo Número Módulo es requerido
+          </span>
+          <span *ngIf="formGroup.get('numeroModulo').errors.minlength">
+            El No. de módulo debe contener 2 carácteres
+          </span>
+          <span *ngIf="formGroup.get('numeroModulo').errors.maxlength">
+            El No. de módulo debe contener 2 carácteres
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group"
+         [ngClass]="{'text-danger': (formGroup.get('textoModulo').touched || formGroup.get('textoModulo').dirty) && !formGroup.get('textoModulo').valid }">
+      <label class="col-md-2 control-label font-weight-bold"
+             for="textoModulo">Texto Etiqueta</label>
+
+      <div class="col-md-8">
+        <input class="form-control"
+               id="textoModulo"
+               type="text"
+               required
+               formControlName="textoModulo" [ngClass]="{'border-danger': (formGroup.get('textoModulo').touched || formGroup.get('textoModulo').dirty) && !formGroup.get('textoModulo').valid }" />
+        <span class="help-block" *ngIf="(formGroup.get('textoModulo').touched || formGroup.get('textoModulo').dirty) && formGroup.get('textoModulo').errors">
+          <span *ngIf="formGroup.get('textoModulo').errors.required">
+            El campo Texto Etiqueta es requerido
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-2">
+        <span>
+          <button class="btn btn-primary mr-2"
+                  type="submit"
+                  [disabled]="!formGroup.valid">
+            Salvar
+          </button>
+          <button class="btn btn-secondary"
+                  [routerLink]='["/module"]'>
+            Cancelar
+          </button>
+        </span>
+
+      </div>
+
+    </div>
+  </fieldset>
+</form>
+
